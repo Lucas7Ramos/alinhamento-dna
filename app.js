@@ -646,7 +646,7 @@ function schematic(mode) {
 const ALGOS = [
   {
     mode: 'global', num: 2, name: 'Global', full: 'Global · Needleman–Wunsch',
-    use: 'Genes ortólogos entre espécies',
+    use: 'Genes homólogos entre espécies',
     usetxt: ['Duas sequências inteiras, de tamanho parecido e mesma origem evolutiva — por exemplo, o mesmo gene em humanos e em camundongos.',
       'Queremos comparar tudo, de ponta a ponta: cada letra de A e de B entra no alinhamento, inclusive as das pontas.'],
     q: 'as duas sequências, inteiras, são parecidas?',
@@ -742,9 +742,9 @@ function renderResults(dps, A, B) {
   const plural = (k, w, p) => `${k} ${k === 1 ? w : p}`;
   const card = (d) => {
     const al = d.alignment;
-    return `<div class="rc m-${d.mode}"><h3>${MODE_INFO[d.mode].name}<span class="sc">score ${fmtS(d.score)}</span></h3>` +
+    return `<div class="rc m-${d.mode}"><h3>${MODE_INFO[d.mode].name}<span class="sc"><small>score</small> ${fmtS(d.score)}</span></h3>` +
       alignmentHTML(al, d.mode, null) +
-      `<div class="facts"><span>${plural(al.matches, 'match', 'matches')} · ${plural(al.mismatches, 'mismatch', 'mismatches')} · ${plural(al.gaps, 'gap', 'gaps')}</span>` +
+      `<div class="facts"><span>${plural(al.matches, 'match', 'matches')} · ${plural(al.mismatches, 'mismatch', 'mismatches')} · ${plural(al.gaps, 'gap', 'gaps')}${d.mode === 'semi' ? ' (as pontas não contam)' : ''}</span>` +
       `<span><span class="s">▶ ${cellTxt(d.start)}</span> → <span class="e">■ ${cellTxt(d.end)}</span> · ${plural(d.moves, 'movimento', 'movimentos')}</span></div>` +
       `<p class="interp">${interp[d.mode](d)}</p></div>`;
   };
@@ -757,7 +757,7 @@ function renderResults(dps, A, B) {
     ['Fim do traceback', 'chegar em (0, 0)', 'chegar na linha 0 ou coluna 0', 'encontrar um 0'],
     ['Gaps nas pontas', 'custam −2 cada', 'grátis', 'ficam de fora'],
     ['Neste exemplo', tb(g), tb(s), tb(l), 'dyn'],
-    ['Uso típico', 'genes ortólogos', 'montagem de reads, primers, mapeamento', 'domínios, motivos, BLAST'],
+    ['Uso típico', 'genes homólogos', 'montagem de reads, primers, mapeamento', 'domínios, motivos, BLAST'],
   ];
   const names = ['Global', 'Semi-Global', 'Local'];
   $('#res-cards').innerHTML = card(g) + card(s) + card(l);
