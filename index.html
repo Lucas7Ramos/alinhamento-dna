@@ -94,7 +94,7 @@ p{margin:0}
 .hint{margin-top:1.6em;color:var(--muted);font-size:18px;display:flex;gap:10px 18px;flex-wrap:wrap;align-items:center}
 .cover .aln{margin:0}
 
-/* alinhamento (fitas) */
+/* alinhamento (sequências lado a lado) */
 .aln{display:inline-flex;flex-direction:column;font-family:var(--mono);font-size:var(--afz,24px);font-weight:700;line-height:1.2;max-width:100%;overflow-x:auto;padding-bottom:2px}
 .aln .ar{display:flex;white-space:pre}
 .aln .ar>span{width:1.1ch;text-align:center;flex:none}
@@ -113,6 +113,9 @@ p{margin:0}
 .why{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .why li{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);padding:12px 14px}
 .why b{display:block;font-size:clamp(19px,1.1vw,22px)}
+.why li{display:flex;flex-direction:column;gap:2px}
+.alg-tag{align-self:flex-start;margin-top:auto;padding-top:6px;font-size:18px;font-weight:700;color:var(--sc)}
+.alg-tag::before{content:"→ ";color:var(--ink2)}
 
 /* ideia algorítmica */
 .big-num{font-size:clamp(34px,2.6vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.05;font-variant-numeric:tabular-nums}
@@ -172,11 +175,12 @@ p{margin:0}
 .p-sub{font-size:18px;font-weight:400;color:var(--muted);overflow:hidden;text-overflow:ellipsis}
 .p-score{margin-left:auto;font-size:20px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
 .mx-wrap{flex:1;min-height:0;overflow:auto;display:flex;padding:3px}
-.info{--info-h:118px;height:var(--info-h);flex:none;overflow:hidden;border-top:1px solid var(--line);padding-top:6px;font-size:19px;line-height:1.3}
-.player.compact .info{--info-h:90px;font-size:18px}
+.info{--info-h:134px;height:var(--info-h);flex:none;overflow:hidden;border-top:1px solid var(--line);padding-top:6px;font-size:19px;line-height:1.3}
+.player.compact .info{--info-h:114px;font-size:18px}
 .player.compact .info .aln{line-height:1.15}
 .player.compact .info .aln .ar.mk{line-height:.75}
 .player.compact .p-sub{display:none}
+.panel.tight.has-score .p-sub{display:none}
 
 .mx{--c:40px;--g:3px;--fz:18px;--fzh:24px;--sw1:1.5px;--sw2:3px;display:grid;grid-template-columns:repeat(var(--cols),var(--c));grid-auto-rows:var(--c);gap:var(--g);position:relative;margin:auto;font-family:var(--mono);flex:none;isolation:isolate}
 .mx .c>span{position:relative;z-index:2;text-shadow:0 0 2px #fff,0 0 3px #fff,0 0 4px #fff}
@@ -226,14 +230,10 @@ p{margin:0}
 .calc .cr.ch .tg{color:var(--ink)}
 .calc .res{grid-column:1/-1;font-family:system-ui,"Segoe UI",Roboto,Arial,sans-serif;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .calc .res b{font-family:var(--mono);font-size:1.1em}
-.cl{font-family:var(--mono);display:flex;gap:4px 14px;flex-wrap:wrap}
-.cl .cc{opacity:.7}.cl .cc.tie{opacity:1;text-decoration:underline dotted}.cl .cc.ch{opacity:1;font-weight:800;text-decoration:underline}
-.cres{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cres b{font-family:var(--mono);font-size:1.1em}
 .badge{display:inline-block;font-size:18px;font-weight:700;padding:0 8px;border-radius:999px;background:#EDEDED;white-space:nowrap}
 .badge.clampb{background:repeating-linear-gradient(45deg,#DCDCDC 0 5px,#F2F2F2 5px 10px);color:var(--ink);border:1px solid #BDBDBD}
 .badge.tieb{background:#FFF1CC}
-.tr-status{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px}
+.tr-status{margin-bottom:4px}
 .tr-status .s{color:var(--start-ink);font-weight:700}.tr-status .e{font-weight:700}
 .info .aln{--afz:22px}
 .player.compact .info .aln{--afz:18px}
@@ -279,18 +279,23 @@ body.no-notes .note{display:none}
 .panel.mini .info{height:auto;border-top:0;font-size:20px}
 
 /* resultados */
-.res-grid{display:grid;grid-template-columns:minmax(150px,.62fr) repeat(3,minmax(0,1fr));column-gap:12px;align-content:start;min-height:0}
-.rc{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);border-top:5px solid var(--id);padding:8px 14px 10px;display:flex;flex-direction:column;gap:4px;min-width:0}
-.rc h3{margin:0;font-size:var(--h2);color:var(--id);display:flex;align-items:baseline;gap:10px}
-.rc h3 .sc{margin-left:auto;color:var(--ink);font-size:clamp(22px,1.4vw,28px);font-variant-numeric:tabular-nums}
-.rc .aln{--afz:clamp(20px,1.5vw,30px)}
-.rc .interp{font-size:18px;line-height:1.35}
+.res-cards{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.4vw,28px);align-content:center}
+.rc{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);border-top:6px solid var(--id);padding:clamp(12px,1.4vw,26px);display:flex;flex-direction:column;gap:clamp(8px,1.2vh,16px);min-width:0}
+.rc h3{margin:0;font-size:var(--h2);color:var(--id);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.rc h3 .sc{margin-left:auto;color:var(--ink);font-size:clamp(24px,1.7vw,34px);font-variant-numeric:tabular-nums}
+.rc .aln{--afz:28px}
+.rc .facts{display:flex;flex-direction:column;gap:2px;color:var(--ink2);font-size:clamp(18px,1.05vw,21px)}
+.rc .facts .s{color:var(--start-ink);font-weight:700}.rc .facts .e{font-weight:700}
+.rc .interp{font-size:clamp(18px,1.1vw,22px);line-height:1.4;border-top:1px solid var(--line);padding-top:clamp(8px,1.2vh,14px)}
+.res-grid{display:grid;grid-template-columns:minmax(170px,.7fr) repeat(3,minmax(0,1fr));column-gap:14px;align-content:start;min-height:0}
 .rt{display:contents}
-.rt>div{padding:4px 4px;border-bottom:1px solid var(--line);font-size:clamp(18px,1vw,20px);line-height:1.3}
+.rt>div{padding:clamp(5px,.9vh,11px) 6px;border-bottom:1px solid var(--line);font-size:clamp(18px,1.1vw,23px);line-height:1.3}
 .rt>div:first-child{font-weight:700;color:var(--ink2)}
+.rt.hd>div{font-size:var(--h2);font-weight:800;color:var(--id);border-bottom:3px solid var(--id)}
+.rt.hd>div:first-child{border-bottom-color:transparent}
 .rt>div.v{padding-left:14px}
 .rt.dyn>div{background:#FFFBE0}
-.closing{margin-top:auto;padding-top:6px;font-size:clamp(22px,1.5vw,30px);font-weight:700;text-align:center}
+.closing{margin-top:clamp(16px,4vh,48px);font-size:clamp(22px,1.5vw,30px);font-weight:700;text-align:center}
 
 /* fechamento */
 .end{flex:1;display:flex;align-items:center;gap:clamp(24px,4vw,80px);min-height:0}
@@ -328,7 +333,8 @@ body.no-notes .note{display:none}
   .res-grid{grid-template-columns:1fr}
   .res-grid .rt>div:first-child{border-bottom:0;padding-bottom:0;margin-top:8px}
   .res-grid .rt>div.v::before{content:attr(data-m) ": ";font-weight:700;color:var(--id)}
-  .res-grid .rc{margin-bottom:10px}
+  .res-cards{grid-template-columns:1fr}
+  .res-grid .rt.hd{display:none}
   .end{flex-direction:column}
   .note{position:fixed;left:8px;right:8px;bottom:84px}
 }
@@ -390,12 +396,12 @@ body.no-notes .note{display:none}
   <div class="body">
     <div class="col" style="flex:1.15">
       <div class="card">
-        <p class="lead" style="margin-bottom:14px">Colocamos duas fitas de DNA lado a lado e decidimos, coluna por coluna, o que corresponde a quê.</p>
+        <p class="lead" style="margin-bottom:14px">Colocamos duas sequências de DNA lado a lado e decidimos, coluna por coluna, o que corresponde a quê.</p>
         <div id="strands"></div>
         <div class="legend-list">
-          <div class="lg-item"><span class="sw match">A|A</span><span><b>Match</b>: a mesma letra nas duas fitas. <span class="muted">(+1)</span></span></div>
+          <div class="lg-item"><span class="sw match">A|A</span><span><b>Match</b>: a mesma letra nas duas sequências. <span class="muted">(+1)</span></span></div>
           <div class="lg-item"><span class="sw mis">T×C</span><span><b>Mismatch</b>: letras diferentes — talvez uma mutação. <span class="muted">(−1)</span></span></div>
-          <div class="lg-item"><span class="sw gap">A −</span><span><b>Gap</b>: uma letra foi inserida numa fita ou perdida na outra. <span class="muted">(−2)</span></span></div>
+          <div class="lg-item"><span class="sw gap">A −</span><span><b>Gap</b>: uma letra foi inserida numa sequência ou perdida na outra. <span class="muted">(−2)</span></span></div>
         </div>
       </div>
       <p class="muted" style="font-size:18px">Pontuação usada em todo o site: match <b>+1</b> · mismatch <b>−1</b> · gap <b>−2</b>.</p>
@@ -403,10 +409,10 @@ body.no-notes .note{display:none}
     <div class="col">
       <h3 style="margin:0;font-size:var(--h2)">Por que comparamos sequências?</h3>
       <ul class="why">
-        <li><b>Genes homólogos</b>O mesmo gene em espécies diferentes revela parentesco evolutivo.</li>
-        <li><b>Mutações</b>Comparar com uma referência mostra onde o DNA mudou.</li>
-        <li><b>Montagem de genoma</b>O sequenciador lê pedaços curtos; é preciso encaixá-los.</li>
-        <li><b>Diagnóstico</b>Reconhecer um vírus, uma bactéria ou uma variante genética numa amostra.</li>
+        <li><b>Genes homólogos</b>O mesmo gene em espécies diferentes revela parentesco evolutivo.<span class="alg-tag" data-sec="global">Global</span></li>
+        <li><b>Mutações</b>Comparar o gene de um paciente com o gene de referência mostra onde o DNA mudou.<span class="alg-tag" data-sec="global">Global</span></li>
+        <li><b>Montagem de genoma</b>O sequenciador lê pedaços curtos; é preciso encaixá-los.<span class="alg-tag" data-sec="semi">Semi-Global</span></li>
+        <li><b>Diagnóstico</b>Reconhecer um vírus, uma bactéria ou uma variante genética numa amostra.<span class="alg-tag" data-sec="local">Local (BLAST)</span></li>
       </ul>
     </div>
   </div>
@@ -452,9 +458,15 @@ body.no-notes .note{display:none}
   <div class="player-host" id="cmp-host"></div>
 </section>
 
-<section class="stop" data-sec="comparador" aria-label="Resultados e tabela comparativa">
+<section class="stop" data-sec="comparador" aria-label="Resultados">
   <p class="kicker">5 · Comparador</p>
   <h2 class="t" id="res-title">Resultados</h2>
+  <div class="res-cards" id="res-cards"></div>
+</section>
+
+<section class="stop" data-sec="comparador" aria-label="Tabela comparativa">
+  <p class="kicker">5 · Comparador</p>
+  <h2 class="t" id="tab-title">Tabela comparativa</h2>
   <div class="res-grid" id="res-grid"></div>
   <p class="closing">Mesma entrada, três perguntas diferentes, três respostas diferentes.</p>
 </section>
@@ -489,6 +501,7 @@ const CONFIG = {
   DEFAULT_A: 'GATCGA',
   DEFAULT_B: 'GATTA',
   SPEED_MS: 900,        // tempo por passo no play (300–2500)
+  AUTOPLAY_MS: 400,     // velocidade do play automático das matrizes ilustrativas
   MIN_LEN: 3,
   MAX_LEN: 10,
 };
@@ -922,6 +935,7 @@ class Panel {
     this.svg.setAttribute('class', 'ov');
     this.svg.innerHTML = arrows;
     this.scoreEl.textContent = '';
+    this.el.classList.remove('has-score');
     this.info.innerHTML = cur < 0 ? this.bordersHTML() : this.calcHTML(ci, cj);
   }
   bordersHTML() {
@@ -941,9 +955,6 @@ class Panel {
     if (dp.mode === 'local' && c.best < 0) res = `máx = ${fmt(c.best)} → <b>0</b> <span class="badge clampb">negativo → 0</span>`;
     else if (dp.mode === 'local' && c.best === 0) res = `máx = <b>0</b> <span class="muted">· sem seta</span>`;
     else res = `máx = <b>${fmt(c.best)}</b> ${glyphHTML(ch)}` + (nt.length > 1 ? ` <span class="badge tieb">empate ${nt.map((b) => GLYPH[b]).join('')}</span>` : '');
-    if (this.compact) {
-      return `<div class="cl">${rows.map(([b, , v]) => `<span class="cc${t & b ? (b === ch ? ' ch' : ' tie') : ''}">${glyphHTML(b)}${fmt(v)}</span>`).join('')}</div><div class="cres">${res}</div>`;
-    }
     return `<div class="calc">${rows.map(([b, ex, v]) => {
       const cls = t & b ? (b === ch ? ' ch' : ' tie') : '';
       const tg = t & b ? (b === ch ? '◀ escolhida' : 'empate') : '';
@@ -996,6 +1007,7 @@ class Panel {
     this.svg.setAttribute('class', 'ov dim');
     this.svg.innerHTML = s;
     this.scoreEl.textContent = 'score ' + fmtS(dp.score);
+    this.el.classList.add('has-score');
 
     let status;
     if (t === 0) status = `<span class="s">▶ Início ${cellTxt(dp.start)}</span>: ${this.startReason()}`;
@@ -1057,7 +1069,7 @@ class Player {
     this.btn.skip.onclick = () => { this.pause(); this.skip(); };
     this.btn.speed.oninput = () => setSpeed(2800 - +this.btn.speed.value);
     $('.x', this.noteEl).onclick = () => { this.noteEl.hidden = true; };
-    this.step = 0; this.playing = false; this.timer = null;
+    this.step = 0; this.playing = false; this.timer = null; this.speedOverride = null;
     App.players.push(this);
     this.syncSpeed();
     this.setSequences(A, B);
@@ -1091,7 +1103,7 @@ class Player {
         this.host.classList.add('compact'); this.panels.forEach((p) => { p.compact = true; });
         c = Math.min(...this.panels.map(fit));
       }
-      this.panels.forEach((p) => p.setCell(c));
+      this.panels.forEach((p) => { p.setCell(c); p.el.classList.toggle('tight', p.el.clientWidth < 480); });
     } else this.panels.forEach((p) => p.setCell(fit(p)));
     this.host.style.setProperty('--play-h', $('.play-bar', this.host).offsetHeight + 'px');
     if (this.kind === 'cmp') this.host.style.setProperty('--seq-h', this.extra.offsetHeight + 'px');
@@ -1101,7 +1113,7 @@ class Player {
     this.step = k;
     const anim = animate && !reduceMotion.matches;
     if (k < this.F) this.panels.forEach((p) => p.renderFill(k, anim));
-    else this.panels.forEach((p) => p.renderTrace(k - this.F, anim, App.speed));
+    else this.panels.forEach((p) => p.renderTrace(k - this.F, anim, this.speedOverride || App.speed));
     this.renderHead();
     this.renderNote();
     this.btn.prev.disabled = k === 0;
@@ -1170,8 +1182,9 @@ class Player {
     else if (this.step < this.total - 1) this.setStep(this.total - 1);
   }
   toggle() { this.playing ? this.pause() : this.play(); }
-  play() {
+  play(speed) {
     if (this.step >= this.total - 1) this.setStep(0);
+    this.speedOverride = speed || null; // play automático usa velocidade própria; mexer no slider volta ao normal
     this.playing = true;
     this.btn.play.innerHTML = '⏸&#xFE0E; Pausa';
     this.tick();
@@ -1182,7 +1195,7 @@ class Player {
       if (!this.playing) return;
       this.setStep(this.step + 1);
       if (this.step >= this.total - 1) this.pause(); else this.tick();
-    }, App.speed);
+    }, this.speedOverride || App.speed);
   }
   pause() {
     this.playing = false; clearTimeout(this.timer);
@@ -1195,7 +1208,7 @@ class Player {
 }
 function setSpeed(ms) {
   App.speed = clamp(Math.round(ms / 100) * 100, 300, 2500);
-  App.players.forEach((p) => p.syncSpeed());
+  App.players.forEach((p) => { p.speedOverride = null; p.syncSpeed(); });
 }
 
 /* ===================================================================
@@ -1214,7 +1227,13 @@ function shapeSVG(mode) {
   const grey = '#C9C9C4';
   let s = '';
   if (mode === 'global') s = bar(40, 30, 440, col, 'A') + bar(40, 90, 440, col, 'B') + links(40, 480);
-  else if (mode === 'semi') s = bar(40, 30, 300, grey, 'A') + bar(180, 30, 160, col) + bar(180, 90, 160, col) + bar(180, 90, 300, grey, '') + bar(180, 90, 160, col) + `<text x="166" y="112" text-anchor="end" font-size="22" font-weight="700" fill="#1A1A1A" font-family="system-ui,Segoe UI,Arial">B</text>` + links(180, 340);
+  else if (mode === 'semi') {
+    const lbl = (y, t) => `<text x="40" y="${y}" font-size="22" font-weight="700" fill="#3F3F3F" font-family="system-ui,Segoe UI,Arial">${t}</text>`;
+    const lk = (x0, x1, y) => { let r = ''; for (let x = x0 + 12; x < x1; x += 22) r += `<line x1="${x}" y1="${y}" x2="${x}" y2="${y + 26}" stroke="${col}" stroke-width="3"/>`; return r; };
+    s = lbl(22, 'sobreposição') + bar(40, 34, 300, grey, 'A') + bar(180, 34, 160, col) + bar(180, 94, 300, grey, 'B') + bar(180, 94, 160, col) + lk(180, 340, 66) +
+      lbl(170, 'uma dentro da outra') + bar(40, 182, 440, grey, 'A') + bar(170, 182, 150, col) + bar(170, 242, 150, col, 'B') + lk(170, 320, 214);
+    return `<svg viewBox="0 0 520 280" role="img" aria-label="Esquema da forma do alinhamento">${s}</svg>`;
+  }
   else s = bar(40, 30, 440, grey, 'A') + bar(250, 30, 130, col) + bar(40, 90, 440, grey, 'B') + bar(150, 90, 130, col) + [0, 1, 2, 3, 4].map((k) => `<line x1="${262 + k * 26}" y1="62" x2="${162 + k * 26}" y2="88" stroke="${col}" stroke-width="3"/>`).join('');
   return `<svg viewBox="0 0 520 132" role="img" aria-label="Esquema da forma do alinhamento">${s}</svg>`;
 }
@@ -1266,11 +1285,11 @@ const ALGOS = [
   },
   {
     mode: 'semi', num: 3, name: 'Semi-Global', full: 'Semi-Global · pontas livres',
-    use: 'Montagem de fragmentos (reads)',
-    usetxt: ['O sequenciador lê o genoma em pedaços curtos que se sobrepõem. Para montar o quebra-cabeça, perguntamos se o fim de um read encaixa no começo do outro.',
-      'O mesmo vale para achar um primer ou adaptador na ponta de uma sequência maior: o que sobra nas pontas não deve ser penalizado.'],
-    q: 'o fim de uma encaixa no começo da outra?',
-    shapecap: 'Só a sobreposição conta; as pontas soltas (cinza) são grátis.',
+    use: 'Montagem de reads, primers e mapeamento',
+    usetxt: ['Uma sequência pode se encaixar na outra de dois jeitos. Sobrepondo as pontas: na montagem de genomas, o fim de um read encaixa no começo do próximo.',
+      'Ou uma inteira dentro da outra: um primer sobre o gene, ou um read sobre a sequência de referência. Nos dois casos, o que sobra nas pontas não deve ser penalizado.'],
+    q: 'uma se encaixa na outra, sem pagar pelas pontas?',
+    shapecap: 'Só a parte encaixada conta; as pontas soltas (cinza) são grátis.',
     rules: [
       ['Bordas: linha 0 e coluna 0 valem 0', 'Começar com uma sequência “adiantada” não custa nada: pontas soltas no início são grátis.'],
       ['Início: maior valor da última linha ou coluna', 'Uma das sequências precisa ter terminado, mas a outra pode sobrar livre no final. Empate: canto (n,m), depois última linha, depois última coluna.'],
@@ -1282,7 +1301,7 @@ const ALGOS = [
   {
     mode: 'local', num: 4, name: 'Local', full: 'Local · Smith–Waterman',
     use: 'Domínios e motivos em comum (BLAST)',
-    usetxt: ['Proteínas diferentes podem compartilhar só um trecho — um domínio que se liga ao DNA, por exemplo — e ser diferentes no resto.',
+    usetxt: ['Genes ou proteínas diferentes podem compartilhar só um trecho — um domínio que se liga ao DNA, um motivo regulador — e ser diferentes no resto.',
       'O alinhamento local procura o melhor trecho em comum e ignora o resto. É a mesma ideia por trás do BLAST, que busca sequências parecidas em bancos gigantes.'],
     q: 'qual o trecho mais parecido entre as duas?',
     shapecap: 'Só o melhor trecho em comum; o resto (cinza) fica de fora.',
@@ -1333,9 +1352,8 @@ function renderResults(dps, A, B) {
   const [g, s, l] = dps;
   const interp = {
     global: (d) => {
-      const al = d.alignment;
-      let t = `De ponta a ponta: ${al.matches} match${al.matches === 1 ? '' : 'es'}, ${al.mismatches} mismatch${al.mismatches === 1 ? '' : 'es'}, ${al.gaps} gap${al.gaps === 1 ? '' : 's'} — tudo conta.`;
-      if (d.alt) t += ` Empate em ${cellTxt(d.alt.cell)}: <span class="mono">${d.alt.alignment.textB}</span> também dá ${fmtS(d.score)}.`;
+      let t = 'Alinha tudo, de ponta a ponta: toda letra de A e de B entra na conta, inclusive as das pontas.';
+      if (d.alt) t += ` Empate no caminho em ${cellTxt(d.alt.cell)}: <span class="mono">${d.alt.alignment.textA} / ${d.alt.alignment.textB}</span> dá o mesmo score.`;
       return t;
     },
     semi: (d) => d.alignment.cols.length
@@ -1345,21 +1363,42 @@ function renderResults(dps, A, B) {
       ? `Melhor trecho em comum: <span class="mono">${d.alignment.coreA}</span> / <span class="mono">${d.alignment.coreB}</span>. O resto, em cinza, é ignorado.`
       : 'Nenhum trecho tem score positivo: não há nada parecido o bastante.',
   };
-  const card = (d) => `<div class="rc m-${d.mode}"><h3>${MODE_INFO[d.mode].name}<span class="sc">score ${fmtS(d.score)}</span></h3>${alignmentHTML(d.alignment, d.mode, null)}<p class="interp">${interp[d.mode](d)}</p></div>`;
+  const plural = (k, w, p) => `${k} ${k === 1 ? w : p}`;
+  const card = (d) => {
+    const al = d.alignment;
+    return `<div class="rc m-${d.mode}"><h3>${MODE_INFO[d.mode].name}<span class="sc">score ${fmtS(d.score)}</span></h3>` +
+      alignmentHTML(al, d.mode, null) +
+      `<div class="facts"><span>${plural(al.matches, 'match', 'matches')} · ${plural(al.mismatches, 'mismatch', 'mismatches')} · ${plural(al.gaps, 'gap', 'gaps')}</span>` +
+      `<span><span class="s">▶ ${cellTxt(d.start)}</span> → <span class="e">■ ${cellTxt(d.end)}</span> · ${plural(d.moves, 'movimento', 'movimentos')}</span></div>` +
+      `<p class="interp">${interp[d.mode](d)}</p></div>`;
+  };
   const tb = (d) => `▶ ${cellTxt(d.start)} → ■ ${cellTxt(d.end)} · ${d.moves} mov.`;
   const ROWS = [
-    ['Pergunta', 'As duas, inteiras, são parecidas?', 'O fim de uma encaixa no começo da outra?', 'Qual o trecho mais parecido?'],
+    ['Pergunta', 'As duas, inteiras, são parecidas?', 'Uma se encaixa na outra, sem pagar pelas pontas?', 'Qual o trecho mais parecido?'],
     ['Bordas', '−2·i e −2·j', '0', '0'],
     ['Negativos', 'permitidos', 'permitidos', 'viram 0'],
     ['Início do traceback', 'canto (n, m)', 'maior da última linha/coluna', 'maior de toda a matriz'],
     ['Fim do traceback', 'chegar em (0, 0)', 'chegar na linha 0 ou coluna 0', 'encontrar um 0'],
     ['Gaps nas pontas', 'custam −2 cada', 'grátis', 'ficam de fora'],
     ['Neste exemplo', tb(g), tb(s), tb(l), 'dyn'],
-    ['Uso típico', 'genes ortólogos', 'montagem de reads, primers', 'domínios, motivos, BLAST'],
+    ['Uso típico', 'genes ortólogos', 'montagem de reads, primers, mapeamento', 'domínios, motivos, BLAST'],
   ];
   const names = ['Global', 'Semi-Global', 'Local'];
-  $('#res-grid').innerHTML = `<div></div>${card(g)}${card(s)}${card(l)}` +
+  $('#res-cards').innerHTML = card(g) + card(s) + card(l);
+  fitResultAlignments();
+  $('#tab-title').innerHTML = `Tabela comparativa: <span class="mono">${A}</span> × <span class="mono">${B}</span>`;
+  $('#res-grid').innerHTML = `<div class="rt hd"><div></div>${MODES.map((md) => `<div class="m-${md}">${MODE_INFO[md].name}</div>`).join('')}</div>` +
     ROWS.map((r) => `<div class="rt${r[4] ? ' ' + r[4] : ''}"><div>${r[0]}</div>${[1, 2, 3].map((k) => `<div class="v m-${['', 'global', 'semi', 'local'][k]}" data-m="${names[k - 1]}">${r[k]}</div>`).join('')}</div>`).join('');
+}
+
+// fonte dos alinhamentos nos cartões: a maior que cabe na largura do cartão
+function fitResultAlignments() {
+  $$('#res-cards .rc').forEach((rc) => {
+    const aln = $('.aln', rc); if (!aln) return;
+    const cols = $('.ar', aln).children.length;
+    const avail = rc.clientWidth - 2 * parseFloat(getComputedStyle(rc).paddingLeft);
+    aln.style.setProperty('--afz', clamp(Math.floor(avail / (cols * 0.68)), 20, 48) + 'px');
+  });
 }
 
 /* ===================================================================
@@ -1375,7 +1414,7 @@ const Nav = {
         if (!en.isIntersecting) continue;
         const b = this.blocks.findIndex((x) => x.el === en.target);
         if (this.lock) { if (b === this.target && Math.abs(this.deck.scrollTop - en.target.offsetTop) < 2) this.unlockSoon(); continue; }
-        if (b !== this.cur) { this.leave(); this.cur = b; this.update(); }
+        if (b !== this.cur) { this.leave(); this.cur = b; this.enter(); this.update(); }
       }
     }, { root: this.deck, rootMargin: '-50% 0px -50% 0px', threshold: 0 });
     this.blocks.forEach((b) => io.observe(b.el));
@@ -1388,6 +1427,11 @@ const Nav = {
   total() { return this.offset(this.blocks.length); },
   index() { const bl = this.blocks[this.cur]; return this.offset(this.cur) + (bl.kind === 'cmp' ? bl.player.step : 0); },
   leave() { const p = this.blocks[this.cur] && this.blocks[this.cur].player; if (p) p.pause(); },
+  // ao chegar numa matriz ilustrativa: recomeça do passo 0 e toca sozinha, rápido
+  enter() {
+    const bl = this.blocks[this.cur];
+    if (bl.kind === 'illus') { bl.player.setStep(0, false); bl.player.play(CONFIG.AUTOPLAY_MS); }
+  },
   next() {
     const bl = this.blocks[this.cur], p = bl.player;
     if (bl.kind === 'cmp' && p.step < p.total - 1) { p.pause(); p.setStep(p.step + 1); return; }
@@ -1403,7 +1447,8 @@ const Nav = {
     const far = Math.abs(b - this.cur) > 1; // saltos longos (menu) são instantâneos
     this.cur = b;
     const bl = this.blocks[b];
-    if (bl.player) bl.player.setStep(bl.kind === 'cmp' && where === 'end' ? bl.player.total - 1 : 0, false);
+    if (bl.kind === 'cmp') bl.player.setStep(where === 'end' ? bl.player.total - 1 : 0, false);
+    this.enter();
     this.lock = true; this.target = b; this.unlockSoon(1500);
     this.deck.scrollTo({ top: bl.el.offsetTop, behavior: reduceMotion.matches || far ? 'auto' : 'smooth' });
     this.update();
@@ -1491,7 +1536,7 @@ function init() {
     const p = new Player(h, { modes: [a.mode], kind: 'single', A: a.A, B: a.B, tip: a.tip });
     h.closest('.stop')._player = p;
   });
-  // início: fitas e matriz mínima
+  // início: sequências lado a lado e matriz mínima
   const demo = { cols: [], pre: [], suf: [] };
   [['G', 'G'], ['A', 'A'], ['T', 'C'], ['T', 'T'], ['A', '-'], ['C', 'C'], ['A', 'A']].forEach(([a, b]) =>
     demo.cols.push({ a, b, type: a === '-' || b === '-' ? 'gap' : a === b ? 'match' : 'mismatch' }));
@@ -1518,6 +1563,7 @@ function init() {
 
 function relayout() {
   App.players.forEach((p) => { p.layout(); p.rerender(); });
+  fitResultAlignments();
   if (App.mini) {
     App.mini.setCell(Math.round(clamp(window.innerHeight * 0.085, 48, 88)));
     App.mini.renderFill(4, false);
